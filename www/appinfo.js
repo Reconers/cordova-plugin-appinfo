@@ -18,6 +18,7 @@ function appInfo() {
             me.version = info.version;
             me.identifier = info.identifier;
             me.build = info.build || 'unknown';
+            me.market = info.market || 'unknown';
             channel.onAppInfoReady.fire();
         },function(e) {
             utils.alert("[ERROR] Error initializing Cordova: " + e);

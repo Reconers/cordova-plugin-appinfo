@@ -47,6 +47,7 @@ public class AppInfo extends CordovaPlugin {
             appInfo.put("identifier", packageName);
             appInfo.put("version", versionName);
             appInfo.put("build", versionCode);
+            appInfo.put("market", getMarketVersionFast(packageName));
         } catch (JSONException e) {
             callbackContext.error(e.getMessage());
         }
@@ -74,4 +75,57 @@ public class AppInfo extends CordovaPlugin {
         String packageName = this.cordova.getActivity().getPackageName();
         callbackContext.success(packageName);
     }
+
+    public String getMarketVersionFast(String packageName) {
+            String mData = "", mVer = null;
+
+            try {
+                URL mUrl = new URL("https://play.google.com/store/apps/details?id="
+                        + packageName);
+                HttpURLConnection mConnection = (HttpURLConnection) mUrl
+                        .openConnection();
+
+                if (mConnection == null)
+                    return null;
+
+                mConnection.setConnectTimeout(5000);
+                mConnection.setUseCaches(false);
+                mConnection.setDoOutput(true);
+
+                if (mConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    BufferedReader mReader = new BufferedReader(
+                            new InputStreamReader(mConnection.getInputStream()));
+
+                    while (true) {
+                        String line = mReader.readLine();
+                        if (line == null)
+                            break;
+                        mData += line;
+                    }
+
+                    mReader.close();
+                }
+
+                mConnection.disconnect();
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                return null;
+            }
+
+            String startToken = "softwareVersion\">";
+            String endToken = "<";
+            int index = mData.indexOf(startToken);
+
+            if (index == -1) {
+                mVer = null;
+
+            } else {
+                mVer = mData.substring(index + startToken.length(), index
+                        + startToken.length() + 100);
+                mVer = mVer.substring(0, mVer.indexOf(endToken)).trim();
+            }
+
+            return mVer;
+        }
 }
