@@ -21,7 +21,7 @@ function appInfo() {
             me.market = info.market || 'unknown';
             channel.onAppInfoReady.fire();
         },function(e) {
-            utils.alert("[ERROR] Error initializing Cordova: " + e);
+            alert("[ERROR] Error initializing Cordova: " + e);
         });
     });
 }
