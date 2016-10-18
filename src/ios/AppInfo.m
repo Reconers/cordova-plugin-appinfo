@@ -49,11 +49,12 @@
 -(NSString*) getAppVersion{
     NSDictionary* infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString* appID = infoDictionary[@"CFBundleIdentifier"];
+    
     NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"http://itunes.apple.com/lookup?bundleId=%@", appID]];
     NSData* data = [NSData dataWithContentsOfURL:url];
     NSDictionary* lookup = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     
-    NSString* appStoreVersion;
+    NSString* appStoreVersion = [NSString stringWithFormat:@""];
     if ([lookup[@"resultCount"] integerValue] == 1){
         appStoreVersion = lookup[@"results"][0][@"version"];
     }
