@@ -8,4 +8,5 @@
 
 - (void)getIdentifier:(CDVInvokedUrlCommand*)command;
 
+- (NSString*)getAppVersion;
 @end

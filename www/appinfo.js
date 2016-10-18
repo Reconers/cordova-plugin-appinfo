@@ -1,5 +1,6 @@
 
 var exec = require('cordova/exec');
+var utils = require('cordova/utils');
 var channel = require('cordova/channel');
 
 channel.createSticky('onAppInfoReady');
