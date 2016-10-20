@@ -4,6 +4,7 @@
 
 - (void)getAppInfo:(CDVInvokedUrlCommand*)command
 {
+    [self.commandDelegate runInBackground:^{
     NSDictionary *appInfoDict = NSBundle.mainBundle.infoDictionary;
 
     NSString *identifier = appInfoDict[@"CFBundleIdentifier"];
@@ -19,6 +20,7 @@
     CDVPluginResult* pluginResult = nil;
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:appInfo];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
 }
 
 - (void)getVersion:(CDVInvokedUrlCommand*)command
